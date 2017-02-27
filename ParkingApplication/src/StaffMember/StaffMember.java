@@ -21,6 +21,10 @@ public class StaffMember {
 	 * Staff vehicle license
 	 */
 	private String mLicense;
+	/**
+	 * Member parking Space number
+	 */
+	private int mSpaceNum;
 	
 	/**
 	 * Public constructor for StaffMember to create Staffmember Object
@@ -34,6 +38,21 @@ public class StaffMember {
 		mName = theName;
 		mPhone = thePhone;
 		mLicense = theLicense;
+		
+	}
+	/**
+	 * Public constructor for StaffMember with parking space to create Staff member Object.
+	 * @param theId
+	 * @param theName
+	 * @param thePhone
+	 * @param theLicense
+	 */
+	public StaffMember(int theId, String theName, String thePhone, String theLicense, int theSpaceNum) {
+		mId = theId;
+		mName = theName;
+		mPhone = thePhone;
+		mLicense = theLicense;
+		mSpaceNum = theSpaceNum;
 		
 	}
 
@@ -73,24 +92,34 @@ public class StaffMember {
 	}
 
 	/**
-	 * @param thePhone the Phone to set
+	 * @param thePhone the Phone to set.
 	 */
 	public void setmPhone(String thePhone) {
 		this.mPhone = thePhone;
 	}
 
 	/**
-	 * @return the mLicense
+	 * @return the mLicense.
 	 */
 	public String getLicense() {
 		return mLicense;
 	}
-
+	
 	/**
-	 * @param theLicense the mLicense to set
+	 * @param theLicense the mLicense to set.
 	 */
-	public void setmLicense(String theLicense) {
+	public void setLicense(String theLicense) {
 		this.mLicense = theLicense;
 	}
+	/**
+	 * Setting space number for member.
+	 */
+	public void setSpace(int theSpace) {
+		mSpaceNum = theSpace;
+	}
+	/**
+	 * getting Space number for staff.
+	 */
+	public int getSpaceNum() { return mSpaceNum;}
 	
 }
