@@ -11,6 +11,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 /**
  * This class contains methods to access Item and ItemCategory tables data.
  * @author Loc Bui
@@ -50,6 +52,7 @@ public class MemberDB {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(e);
+			
 		} finally {
 			if (stmt != null) {
 				stmt.close();
@@ -103,11 +106,14 @@ public class MemberDB {
 			preparedStatement.setString(3, member.getPhone());
 			preparedStatement.setString(4, member.getLicense());
 			preparedStatement.executeUpdate();
+			return "Added Member Successfully";
 		} catch (SQLException e) {
-			e.printStackTrace();
-			return "Error adding member: " + e.getMessage();
+//			e.printStackTrace();
+//			return "Error adding member: " + e.getMessage();
+			JOptionPane.showMessageDialog(null, e.getMessage());
+			return "fail";
 		}
-		return "Added Member Successfully";
+		//return "Added Member Successfully";
 	}
 
 	/**

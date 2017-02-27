@@ -199,12 +199,12 @@ private void performAddItem() {
 	
 	member = new StaffMember(memNo, name, phone, vehicleLicense);
 
-	String message = "Member add failed";
+//	String message = null; // "Member add failed";
 	if (MemberDB.addMember(member).equals("Added Member Successfully")) {
-		message = "Member added";
+//		message = "Member added";
+		JOptionPane.showMessageDialog(null, "Successfully added");
 	}
-	JOptionPane.showMessageDialog(null, message);
-
+//	JOptionPane.showMessageDialog(null, message);
 	// Clear all text fields.
 	for (int i = 0; i < txfField.length; i++) {
 		if (txfField[i].getText().length() != 0) {
