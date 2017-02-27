@@ -64,6 +64,16 @@ public class ParkingLots {
 	 * @return the Floor
 	 */
 	public int getFloor() { return mFloor;}
+	/**
+	 * adding Space number.
+	 */
+	public void addSpace(int numofSpace){
+		if(numofSpace > 0) {
+			setCapacity(mCapacity + numofSpace);
+		} else {
+			throw new IllegalArgumentException("Not a Valid Number");
+		}
+	}
 	
 	
 }
