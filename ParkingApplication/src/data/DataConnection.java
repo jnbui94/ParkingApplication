@@ -7,7 +7,6 @@ import java.util.Properties;
 
 /**
  * This class has the information to connect to the cssgate server. 
- * TODO - Update this file with your myuwnetid and mysqlpassword
  * to customize for your own project.
  * @author mabraham
  *
@@ -15,8 +14,8 @@ import java.util.Properties;
 
 public class DataConnection {
 	
-	private static String userName = "jnbui94"; //TODO - your uwnetid here
-	private static String password = "geetva"; //TODO - your mysqlpassword here
+	private static String userName = "locbui";
+	private static String password = "DuwavUg";
 	private static String serverName = "cssgate.insttech.washington.edu";
 	private static Connection sConnection;
 	

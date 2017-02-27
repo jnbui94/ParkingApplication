@@ -19,9 +19,13 @@ public class ParkingSpace {
 	 */
 	private boolean mAvailable;
 	/**
-	 * Undercover status.
+	 * Under cover status.
 	 */
 	private boolean mUndercover;
+	/**
+	 * Monthly rate for Staff
+	 */
+	private double mRate;
 	/**
 	 * Constructor to create ParkingSpace object.
 	 * @param theLot: Parking lot name.
@@ -71,15 +75,25 @@ public class ParkingSpace {
 	}
 	
 	/**
-	 * Getting undercover status.
+	 * Getting under cover status.
 	 */
 	public boolean getUndercover() { return mUndercover; }
 	
 	/**
-	 * setting undercover status.	
+	 * setting under cover status.	
 	 */
 	public void setUndercover(boolean theStatus) {
 		mUndercover = theStatus;
 	}
 	
+	/**
+	 * Getting monthly rate
+	 */
+	public double getRate() { return mRate; }
+	/**
+	 * Set monthly Rate
+	 */
+	public void setRate(double theRate) {
+		mRate = theRate;
+	}
 }

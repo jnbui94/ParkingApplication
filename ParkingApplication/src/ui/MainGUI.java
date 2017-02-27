@@ -26,7 +26,7 @@ public class MainGUI extends JFrame {
 		 * Launches the GUI.
 		 */
 		public MainGUI() {
-			super("Stillwater Antiques System");
+			super("Parking Application");
 			createComponents();
 			
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -42,14 +42,14 @@ public class MainGUI extends JFrame {
 		private void createComponents()
 		{
 			JTabbedPane tabbedPane = new JTabbedPane();
-			JComponent itemPanel = makeTextPanel("Items");
-			tabbedPane.addTab("Items", itemPanel);
-			JComponent catPanel = makeTextPanel("Categories");
-			tabbedPane.addTab("Categories", catPanel);
-			JComponent clientPanel = makeTextPanel("Clients");
-			tabbedPane.addTab("Clients", clientPanel);
-			JComponent transPanel = makeTextPanel("Transactions");
-			tabbedPane.addTab("Transactions", transPanel);
+			JComponent parkingLotPanel = makeTextPanel("Parking Lots");
+			tabbedPane.addTab("Parking Lots", parkingLotPanel);
+			JComponent memberPanel = makeTextPanel("Members");
+			tabbedPane.addTab("Members", memberPanel);
+//			JComponent clientPanel = makeTextPanel("Clients");
+//			tabbedPane.addTab("Clients", clientPanel);
+//			JComponent transPanel = makeTextPanel("Transactions");
+//			tabbedPane.addTab("Transactions", transPanel);
 			add(tabbedPane);
 			
 		}
@@ -62,16 +62,16 @@ public class MainGUI extends JFrame {
 		 */
 		private JComponent makeTextPanel(String type) {
 			JPanel panel = new JPanel();
-			if (type.equalsIgnoreCase("Items")) {
-				panel.add(new ItemGUI());
-				//panel.add(new CategoryGUI());
-			} else if (type.equalsIgnoreCase("Categories")) {
-				panel.add(new CategoryGUI());
-			} else if (type.equalsIgnoreCase("Clients")) {
-				panel.add(new ClientGUI());
-			} else if (type.equalsIgnoreCase("Transactions")) {
-			    panel.add(new TransactionGUI());
-			}
+			if (type.equalsIgnoreCase("Parking Lots")) {
+				panel.add(new ParkingLotGUI());
+			} else if (type.equalsIgnoreCase("Members")) {
+				panel.add(new MemberGUI());
+			} 
+//				else if (type.equalsIgnoreCase("Clients")) {
+//				panel.add(new ClientGUI());
+//			} else if (type.equalsIgnoreCase("Transactions")) {
+//			    panel.add(new TransactionGUI());
+//			}
 			return panel;
 		}
 		

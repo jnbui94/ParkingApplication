@@ -5,9 +5,21 @@ package parking;
  *
  */
 public class ParkingLots {
+	/**
+	 * Name of parking Lot
+	 */
 	private String mName;
+	/**
+	 * location of parking Lot
+	 */
 	private String mLocation;
+	/**
+	 * Capacity of parking lot
+	 */
 	private int mCapacity;
+	/**
+	 * number of floor.
+	 */
 	private int mFloor;
 	
 	/**

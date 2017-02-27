@@ -8,7 +8,7 @@ public class StaffMember {
 	/**
 	 * Staff ID
 	 */
-	private int mId;
+	private String mMemNo;
 	/**
 	 * Staff Name
 	 */
@@ -28,13 +28,13 @@ public class StaffMember {
 	
 	/**
 	 * Public constructor for StaffMember to create Staffmember Object
-	 * @param theId
+	 * @param theMemNo
 	 * @param theName
 	 * @param thePhone
 	 * @param theLicense
 	 */
-	public StaffMember(int theId, String theName, String thePhone, String theLicense) {
-		mId = theId;
+	public StaffMember(String theMemNo, String theName, String thePhone, String theLicense) {
+		mMemNo = theMemNo;
 		mName = theName;
 		mPhone = thePhone;
 		mLicense = theLicense;
@@ -47,8 +47,8 @@ public class StaffMember {
 	 * @param thePhone
 	 * @param theLicense
 	 */
-	public StaffMember(int theId, String theName, String thePhone, String theLicense, int theSpaceNum) {
-		mId = theId;
+	public StaffMember(String theMemNo, String theName, String thePhone, String theLicense, int theSpaceNum) {
+		mMemNo = theMemNo;
 		mName = theName;
 		mPhone = thePhone;
 		mLicense = theLicense;
@@ -59,15 +59,15 @@ public class StaffMember {
 	/**
 	 * @return the mId
 	 */
-	public int getId() {
-		return mId;
+	public String getId() {
+		return mMemNo;
 	}
 
 	/**
 	 * @param theId the Id to set
 	 */
-	public void setId(int theId) {
-		this.mId = theId;
+	public void setId(String theId) {
+		this.mMemNo = theId;
 	}
 
 	/**
