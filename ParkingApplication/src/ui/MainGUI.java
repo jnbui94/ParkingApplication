@@ -28,10 +28,10 @@ public class MainGUI extends JFrame {
 		public MainGUI() {
 			super("Parking Application");
 			createComponents();
-			
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			setVisible(true);
 			setSize(700, 700);
+			
 		}
 
 
@@ -46,10 +46,10 @@ public class MainGUI extends JFrame {
 			tabbedPane.addTab("Parking Lots", parkingLotPanel);
 			JComponent memberPanel = makeTextPanel("Members");
 			tabbedPane.addTab("Members", memberPanel);
-//			JComponent clientPanel = makeTextPanel("Clients");
-//			tabbedPane.addTab("Clients", clientPanel);
-//			JComponent transPanel = makeTextPanel("Transactions");
-//			tabbedPane.addTab("Transactions", transPanel);
+			JComponent compParkingPanel = makeTextPanel("Company Parking");
+			tabbedPane.addTab("Company Parking", compParkingPanel);
+			JComponent bookedParkingPanel = makeTextPanel("Booked Visitor Parking");
+			tabbedPane.addTab("Booked Visitor Parking", bookedParkingPanel);
 			add(tabbedPane);
 			
 		}
@@ -66,12 +66,11 @@ public class MainGUI extends JFrame {
 				panel.add(new ParkingLotGUI());
 			} else if (type.equalsIgnoreCase("Members")) {
 				panel.add(new MemberGUI());
-			} 
-//				else if (type.equalsIgnoreCase("Clients")) {
-//				panel.add(new ClientGUI());
-//			} else if (type.equalsIgnoreCase("Transactions")) {
-//			    panel.add(new TransactionGUI());
-//			}
+			} else if (type.equalsIgnoreCase("Company Parking")) {
+				panel.add(new CompanyParkingGUI());
+			} else if (type.equalsIgnoreCase("Booked Visitor Parking")) {
+			    panel.add(new BookedParkingGUI());
+			}
 			return panel;
 		}
 		
