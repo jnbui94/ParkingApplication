@@ -46,7 +46,7 @@ public class ParkingLots {
 	 * @param theLocation the Location to set
 	 */
 	public void setLocation(String theLocation) {
-		this.mLocation = mLocation;
+		this.mLocation = theLocation;
 	}
 	/**
 	 * @param theCapacity the Capacity to set

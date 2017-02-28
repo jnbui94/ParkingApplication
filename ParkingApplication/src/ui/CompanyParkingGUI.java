@@ -5,25 +5,25 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.*;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.TableModel;
 
 import data.MemberDB;
+import data.ParkingLotDB;
+import data.ParkingSpaceDB;
+import parking.ParkingLots;
 import StaffMember.StaffMember;
 
 
 /**
- * A Panel that contains all the Item related functionality to 
- * list the items, search the items, add a new item, modify values within the item.
+ * This GUI allows user to assign a parking slot to a member. 
  * @author Loc Bui
  *
  */
 
-public class CompanyParkingGUI extends JPanel implements ActionListener, TableModelListener{
+public class CompanyParkingGUI extends JPanel implements ActionListener{
 	private static final long serialVersionUID = 1779520078061383929L;
 	private JButton btnList, btnAssign;
 	private JPanel pnlButtons, pnlContent;
@@ -36,14 +36,14 @@ public class CompanyParkingGUI extends JPanel implements ActionListener, TableMo
 	private JTable table;
 	private JScrollPane scrollPane;
 
-	private JPanel pnlAdd;
-	private JLabel[] txfLabel = new JLabel[4];
-	private JTextField[] txfField = new JTextField[4];
+	private JPanel pnlAdd, comboPanel;
+	private JComboBox<String> myMemberComboBox, myLotComboBox, mySpaceComboBox;
 	private JButton btnAddMember;
+	private String[] myMemberArrays, myLotArrays, mySpaceArrays;
 
 	/**
-	 * Use this for Item administration. Add components that contain the list,
-	 * search and add to this.
+	 * Use this for CompanyParkingGUI administration. Add components that contain the list,
+	 * assign slot to members.
 	 */
 	public CompanyParkingGUI() {
 		setLayout(new BorderLayout());
@@ -80,8 +80,7 @@ public class CompanyParkingGUI extends JPanel implements ActionListener, TableMo
 	}
 
 	/*
-	 * Create the three panels to add to this GUI. One for list, one for search,
-	 * one for add.
+	 * Create the three panels to add to this GUI. One for list, one for assign.
 	 */
 	private void createComponents() {
 		// A button panel at the top for list, search, add
@@ -122,18 +121,59 @@ public class CompanyParkingGUI extends JPanel implements ActionListener, TableMo
 	public void addPanel() {
 		// Add Panel
 		pnlAdd = new JPanel();
-		pnlAdd.setLayout(new GridLayout(8, 0));
-		String labelNames[] = { "Enter Name:", "Enter Member Number: ",
-				"Enter Phone: ", "Enter Vehicle License: " };
-		for (int i = 0; i < labelNames.length; i++) {
-			JPanel panel = new JPanel();
-			panel.setLayout(new GridLayout(1, 0));
-			txfLabel[i] = new JLabel(labelNames[i]);
-			txfField[i] = new JTextField(25);
-			panel.add(txfLabel[i]);
-			panel.add(txfField[i]);
-			pnlAdd.add(panel);
+		pnlAdd.setLayout(new GridLayout(6, 0));
+		
+		
+		try {
+			List<StaffMember> listMember = MemberDB.getMembers();
+			myMemberArrays = new String[listMember.size()];
+			
+			comboPanel = new JPanel();
+	        comboPanel.setLayout(new GridLayout(4, 0));
+			
+	        for (int i = 0; i < listMember.size(); i++) {
+	        	myMemberArrays[i] = listMember.get(i).getName() + " - " +listMember.get(i).getId();
+	        }
+
+	        myMemberComboBox = new JComboBox<>(myMemberArrays);
+	        comboPanel.add(new JLabel("Choose a staff member: "));
+	        comboPanel.add(myMemberComboBox);
+	        
+			List<ParkingLots> listLots = ParkingLotDB.getParkingLots();
+			myLotArrays = new String[listLots.size()];
+			
+	        for (int i = 0; i < listLots.size(); i++) {
+	        	myLotArrays[i] = listLots.get(i).getName();
+	        }
+
+	        myLotComboBox = new JComboBox<>(myLotArrays);
+	        
+	        JButton updateBtn = new JButton("Click here!!!!");
+	        updateBtn.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					String selectedLotName = myLotComboBox.getSelectedItem().toString();
+					updateSpace(selectedLotName);
+				}
+	        	
+	        });
+	        
+	        comboPanel.add(new JLabel("Choose a parking lot: "));
+	        comboPanel.add(myLotComboBox);
+	        comboPanel.add(new JLabel("Click here to get parking spaces"));
+	        comboPanel.add(updateBtn);
+
+	        comboPanel.add(new JLabel("Choose a parking space: "));
+	        comboPanel.add(new JComboBox<String>());
+	        pnlAdd.add(comboPanel);
+			
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
+
 
 
 		JPanel panel = new JPanel();
@@ -142,96 +182,44 @@ public class CompanyParkingGUI extends JPanel implements ActionListener, TableMo
 		panel.add(btnAddMember);
 		pnlAdd.add(panel);
 	}
-
-@Override
-public void actionPerformed(ActionEvent e) {
-	if(e.getSource() == btnAssign) {
-		pnlContent.removeAll();
-		addPanel();
-		pnlContent.add(pnlAdd);
-		pnlContent.revalidate();
-		this.repaint();
-	} else if (e.getSource() == btnAddMember) {
-		performAddItem();
-	} else if (e.getSource() == btnList) {
-		mList = getData();
-		pnlContent.removeAll();
-		table = new JTable(mData, mItemColumnNames);
-		table.getModel().addTableModelListener(this);
-		scrollPane = new JScrollPane(table);
-		pnlContent.add(scrollPane);
-		pnlContent.revalidate();
-		pnlContent.setVisible(true);
-		this.repaint();
-	}
-}
-
-private void performAddItem() {
-	String name = txfField[0].getText();
-	if (name.length() == 0) {
-		JOptionPane.showMessageDialog(null, "Enter an member name");
-		txfField[0].setFocusable(true);
-		return;
-	}
 	
-	String memNo = txfField[1].getText();
-	if (memNo.length() == 0) {
-		JOptionPane.showMessageDialog(null, "Enter an member number");
-		txfField[1].setFocusable(true);
-		return;
-	}
-	
-	String phone = txfField[2].getText();
-	if (phone.length() == 0) {
-		JOptionPane.showMessageDialog(null, "Enter an member phone number");
-		txfField[2].setFocusable(true);
-		return;
-	}
-	
-	String vehicleLicense = txfField[3].getText();
-	if (vehicleLicense.length() == 0) {
-		JOptionPane.showMessageDialog(null, "Enter an member vehicle license");
-		txfField[3].setFocusable(true);
-		return;
-	}
-	
-	StaffMember member;
-	
-	member = new StaffMember(memNo, name, phone, vehicleLicense);
-
-//	String message = null; // "Member add failed";
-	if (MemberDB.addMember(member).equals("Added Member Successfully")) {
-//		message = "Member added";
-		JOptionPane.showMessageDialog(null, "Successfully added");
-	}
-//	JOptionPane.showMessageDialog(null, message);
-	// Clear all text fields.
-	for (int i = 0; i < txfField.length; i++) {
-		if (txfField[i].getText().length() != 0) {
-			txfField[i].setText("");
+	private void updateSpace(String theLotName) {
+		comboPanel.remove(7);
+		List<String> listSpace = new ArrayList<String>();
+		try {
+			listSpace = ParkingSpaceDB.getParkingSpaces(theLotName);
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-	}
-}
-
-	/**
-	 * Listen to the cell changes on the table. 
-	 */
-	@Override
-	public void tableChanged(TableModelEvent e) {
-		int row = e.getFirstRow();
-		int column = e.getColumn();
-		TableModel model = (TableModel) e.getSource();
-		String columnName = model.getColumnName(column);
-		Object data = model.getValueAt(row, column);
+		mySpaceArrays = new String[listSpace.size()];
 		
-		if (!columnName.matches("phone") && !columnName.matches("vehicleLicense")) {
-            JOptionPane.showMessageDialog(null,
-                    "Update failed, " + columnName + " CANNOT BE EDITED!!!");
-		} else if (data != null && ((String) data).length() != 0) {
-			StaffMember member = mList.get(row);
-			if (MemberDB.updateMember(member, columnName, data).startsWith("Error")) {
-				JOptionPane.showMessageDialog(null, "Update failed");
-			}
+        for (int i = 0; i < listSpace.size(); i++) {
+        	mySpaceArrays[i] = listSpace.get(i);
+        }
+        
+        mySpaceComboBox = new JComboBox<>(mySpaceArrays);
+        comboPanel.add(mySpaceComboBox);
+        comboPanel.revalidate();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == btnAssign) {
+			pnlContent.removeAll();
+			addPanel();
+			pnlContent.add(pnlAdd);
+			pnlContent.revalidate();
+			this.repaint();
+		} else if (e.getSource() == btnAddMember) {
+		} else if (e.getSource() == btnList) {
+			mList = getData();
+			pnlContent.removeAll();
+			table = new JTable(mData, mItemColumnNames);
+			scrollPane = new JScrollPane(table);
+			pnlContent.add(scrollPane);
+			pnlContent.revalidate();
+			pnlContent.setVisible(true);
+			this.repaint();
 		}
 	}
 }

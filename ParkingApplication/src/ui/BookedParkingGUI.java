@@ -137,7 +137,7 @@ public class BookedParkingGUI extends JPanel implements ActionListener {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 		if (categories != null) {
-			cmbCategories = new JComboBox(categories);
+//			cmbCategories = new JComboBox(categories);
 			cmbCategories.setSelectedIndex(0);
 			comboPanel.add(new JLabel("Select Lot:"));
 			comboPanel.add(cmbCategories);
