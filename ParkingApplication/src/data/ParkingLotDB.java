@@ -107,11 +107,38 @@ public class ParkingLotDB {
 			preparedStatement.setInt(3, lots.getCapacity());
 			preparedStatement.setInt(4, lots.getFloor());
 			preparedStatement.executeUpdate();
+			addParkingSpace(lots);
 			return "Added Member Successfully";
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 			return "fail";
 		}
+	}
+	
+	public static void addParkingSpace(ParkingLots lots) {
+		for (int i = 1; i <= lots.getCapacity(); i++) {
+			String sql = "insert into ParkingSpace(name, spaceNo) values "
+					+ "(?, ?); ";
+			
+			if (mConnection == null) {
+				try {
+					mConnection = DataConnection.getConnection();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			PreparedStatement preparedStatement = null;
+			try {
+				preparedStatement = mConnection.prepareStatement(sql);
+				preparedStatement.setString(1, lots.getName());
+				preparedStatement.setString(2, lots.getName() + "-" + i);
+				preparedStatement.executeUpdate();
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(null, e.getMessage());
+			}
+		}
+		
 	}
 
 }
