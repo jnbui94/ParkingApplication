@@ -148,7 +148,7 @@ public class BookedParkingGUI extends JPanel implements ActionListener {
 		mNameLot.addActionListener(	
 				new ActionListener() {
 					@Override
-					public void actionPerformed(ActionEvent e) {
+					public void actionPerformed(ActionEvent theE) {
 						String selectedName = mNameLot.getSelectedItem().toString();
 						mTemp = selectedName;
 						btnAdd.doClick();
