@@ -218,12 +218,11 @@ public class BookedParkingGUI extends JPanel implements ActionListener {
 		String availablestr =  txfField[1].getText();
 		int available = Integer.valueOf(availablestr);
 		String temp =  txfField[2].getText();
-		java.util.Date date = null;
 		java.sql.Date sql = null;
 		
 		try {
 			SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-	        Date parsed = (Date) format.parse(temp);
+	        java.util.Date parsed =  format.parse(temp);
 	        sql = new java.sql.Date(parsed.getTime());
 	       
 		} catch (ParseException e) {
@@ -236,6 +235,7 @@ public class BookedParkingGUI extends JPanel implements ActionListener {
 		BookedParking bookedParking = new BookedParking(name, space, license, available,sql);
 		try {
 			BookedParkingDB.addBookedParkingLot(bookedParking);
+			JOptionPane.showMessageDialog(null, "Added Successfully");
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Added Parking Failed");
 		}
