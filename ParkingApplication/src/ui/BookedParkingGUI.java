@@ -167,7 +167,7 @@ public class BookedParkingGUI extends JPanel implements ActionListener {
 		
 		pnlAdd.add(comboPanel);
 		String labelNames[] = { "Enter Visistor License Number:", "Enter Visistor Available: ",
-		"Enter Date mm//dd/yyyy: "};
+		"Enter Date yyyyMMdd: "};
 		for (int i = 0; i < labelNames.length; i++) {
 			JPanel panel = new JPanel();
 			panel.setLayout(new GridLayout(1, 0));
