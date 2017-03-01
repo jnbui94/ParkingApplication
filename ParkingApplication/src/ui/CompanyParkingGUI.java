@@ -1,6 +1,7 @@
 package ui;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,9 +11,11 @@ import java.util.List;
 
 import javax.swing.*;
 
+import data.CompanyParkingDB;
 import data.MemberDB;
 import data.ParkingLotDB;
 import data.ParkingSpaceDB;
+import parking.CompanyParking;
 import parking.ParkingLots;
 import StaffMember.StaffMember;
 
@@ -25,21 +28,53 @@ import StaffMember.StaffMember;
 
 public class CompanyParkingGUI extends JPanel implements ActionListener{
 	private static final long serialVersionUID = 1779520078061383929L;
-	private JButton btnList, btnAssign;
-	private JPanel pnlButtons, pnlContent;
-	private List<StaffMember> mList;
-
-	private String[] mItemColumnNames = { "name", "memberNo", "phone",
-			"vehicleLicense" };
-
+	/**
+	 * All the buttons
+	 */
+	private JButton btnList, btnAssign, btnAddMember;
+	/**
+	 * All the panels
+	 */
+	private JPanel pnlButtons, pnlContent, pnlAdd, comboPanel;
+	/**
+	 * The list
+	 */
+	private List<CompanyParking> mList;
+	/**
+	 * The column names.
+	 */
+	private String[] mItemColumnNames = { "name", "memberNo", "spaceNo",
+			"status", "monthlyRate" };
+	/**
+	 * The data object.
+	 */
 	private Object[][] mData;
+	/**
+	 * The table.
+	 */
 	private JTable table;
+	/**
+	 * The scroll panel
+	 */
 	private JScrollPane scrollPane;
-
-	private JPanel pnlAdd, comboPanel;
-	private JComboBox<String> myMemberComboBox, myLotComboBox, mySpaceComboBox;
-	private JButton btnAddMember;
+	/**
+	 * All the combo boxes.
+	 */
+	private JComboBox<String> myMemberComboBox, myLotComboBox, mySpaceComboBox, myEmptyComboBox;
+	/**
+	 * All the arrays for combo boxes.
+	 */
 	private String[] myMemberArrays, myLotArrays, mySpaceArrays;
+	/**
+	 * The label.
+	 */
+	private JLabel txfLabel;
+	/**
+	 * The text field.
+	 */
+	private JTextField txfField;
+	
+	private ComboBoxModel[] models = new ComboBoxModel[3];
 
 	/**
 	 * Use this for CompanyParkingGUI administration. Add components that contain the list,
@@ -53,15 +88,14 @@ public class CompanyParkingGUI extends JPanel implements ActionListener{
 		setSize(500, 500);
 	}
 
-	/*
+	/**
 	 * Returns the data (2d) to use in the list as well as the search panels.
-	 * 
-	 * @return
+	 * @return the list.
 	 */
-	private List<StaffMember> getData() {
+	private List<CompanyParking> getData() {
 		
 		try {
-			mList = MemberDB.getMembers();
+			mList = CompanyParkingDB.getParkingSpaces();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -69,17 +103,18 @@ public class CompanyParkingGUI extends JPanel implements ActionListener{
 		if (mList != null) {
 			mData = new Object[mList.size()][mItemColumnNames.length];
 			for (int i = 0; i < mList.size(); i++) {
-				mData[i][0] = mList.get(i).getName();
-				mData[i][1] = mList.get(i).getId();
-				mData[i][2] = mList.get(i).getPhone();
-				mData[i][3] = mList.get(i).getLicense();
+				mData[i][0] = mList.get(i).getMemberName();
+				mData[i][1] = mList.get(i).getmMemberNo();
+				mData[i][2] = mList.get(i).getmSpaceNo();
+				mData[i][3] = mList.get(i).getmStatus();
+				mData[i][4] = mList.get(i).getmMonthlyRate();
 			}
 		}
 
 		return mList;
 	}
 
-	/*
+	/**
 	 * Create the three panels to add to this GUI. One for list, one for assign.
 	 */
 	private void createComponents() {
@@ -98,14 +133,15 @@ public class CompanyParkingGUI extends JPanel implements ActionListener{
 
 		addListPanel();
 		
-		//I create a new method for the add panel in order to refresh the category ComboBox.
-		// @author Loc Bui
 		addPanel();
 
 		add(pnlContent, BorderLayout.CENTER);
 
 	}
 	
+	/**
+	 * This method creates the list panel.
+	 */
 	public void addListPanel() {
 		// List Panel
 		pnlContent = new JPanel();
@@ -129,12 +165,12 @@ public class CompanyParkingGUI extends JPanel implements ActionListener{
 			myMemberArrays = new String[listMember.size()];
 			
 			comboPanel = new JPanel();
-	        comboPanel.setLayout(new GridLayout(4, 0));
+	        comboPanel.setLayout(new GridLayout(5, 0));
 			
 	        for (int i = 0; i < listMember.size(); i++) {
 	        	myMemberArrays[i] = listMember.get(i).getName() + " - " +listMember.get(i).getId();
 	        }
-
+	        
 	        myMemberComboBox = new JComboBox<>(myMemberArrays);
 	        comboPanel.add(new JLabel("Choose a staff member: "));
 	        comboPanel.add(myMemberComboBox);
@@ -146,28 +182,68 @@ public class CompanyParkingGUI extends JPanel implements ActionListener{
 	        	myLotArrays[i] = listLots.get(i).getName();
 	        }
 
-	        myLotComboBox = new JComboBox<>(myLotArrays);
+
+	        models[0] = new DefaultComboBoxModel(myLotArrays);
+	        myLotComboBox.setModel(models[0]);
+//	        myLotComboBox = new JComboBox<>(myLotArrays);
 	        
-	        JButton updateBtn = new JButton("Click here!!!!");
-	        updateBtn.addActionListener(new ActionListener() {
+//	        JButton updateBtn = new JButton("Click here!!!!");
+//	        updateBtn.addActionListener(new ActionListener() {
+//
+//				@Override
+//				public void actionPerformed(ActionEvent e) {
+//					String selectedLotName = myLotComboBox.getSelectedItem().toString();
+//					updateSpace(selectedLotName);
+//				}
+//	        	
+//	        });
+	        
+	        comboPanel.add(new JLabel("Choose a parking lot: "));
+	        comboPanel.add(myLotComboBox);
+	        myLotComboBox.addActionListener(new ActionListener() {
 
 				@Override
-				public void actionPerformed(ActionEvent e) {
-					String selectedLotName = myLotComboBox.getSelectedItem().toString();
-					updateSpace(selectedLotName);
+				public void actionPerformed(ActionEvent event) {
+					JComboBox cp = (JComboBox) event.getSource();
+					String lotName = cp.getSelectedItem().toString();
+					List<String> listSpace = new ArrayList<String>();
+					try {
+						listSpace = ParkingSpaceDB.getParkingSpaces(lotName);
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+					mySpaceArrays = new String[listSpace.size()];
+					
+			        for (int i = 0; i < listSpace.size(); i++) {
+			        	mySpaceArrays[i] = listSpace.get(i);
+			        }
+			        models[1] = new DefaultComboBoxModel(mySpaceArrays);
+
+			        mySpaceComboBox.setModel(models[1]);
+			        comboPanel.add(new JLabel("Choose a parking space: "));
+			        comboPanel.add(mySpaceComboBox);
 				}
 	        	
 	        });
 	        
-	        comboPanel.add(new JLabel("Choose a parking lot: "));
-	        comboPanel.add(myLotComboBox);
-	        comboPanel.add(new JLabel("Click here to get parking spaces"));
-	        comboPanel.add(updateBtn);
+//	        comboPanel.add(new JLabel("Click here to get parking spaces"));
+//	        comboPanel.add(updateBtn);
 
-	        comboPanel.add(new JLabel("Choose a parking space: "));
-	        comboPanel.add(new JComboBox<String>());
+//	        comboPanel.add(new JLabel("Choose a parking space: "));
+//	        myEmptyComboBox = new JComboBox<String>();
+//	        comboPanel.add(myEmptyComboBox);
+	        
+//	        JPanel textFieldPnl = new JPanel(new GridLayout(1,0));
+	        txfLabel = new JLabel("Enter Monthly Rate:");
+	        txfField = new JTextField(25);
+	        
+//	        textFieldPnl.add(txfLabel);
+//	        textFieldPnl.add(txfField);
+	        
+	        comboPanel.add(txfLabel);
+	        comboPanel.add(txfField);
+	        
 	        pnlAdd.add(comboPanel);
-			
 			
 			
 		} catch (SQLException e) {
@@ -183,8 +259,16 @@ public class CompanyParkingGUI extends JPanel implements ActionListener{
 		pnlAdd.add(panel);
 	}
 	
+	/**
+	 * Update the parking space based on the chosen parking lot.
+	 * @param theLotName the parking lot name.
+	 */
 	private void updateSpace(String theLotName) {
-		comboPanel.remove(7);
+		if (mySpaceComboBox == null) {
+			comboPanel.remove(myEmptyComboBox);
+		} else {
+			comboPanel.remove(mySpaceComboBox);
+		}
 		List<String> listSpace = new ArrayList<String>();
 		try {
 			listSpace = ParkingSpaceDB.getParkingSpaces(theLotName);
@@ -196,12 +280,15 @@ public class CompanyParkingGUI extends JPanel implements ActionListener{
         for (int i = 0; i < listSpace.size(); i++) {
         	mySpaceArrays[i] = listSpace.get(i);
         }
-        
+
         mySpaceComboBox = new JComboBox<>(mySpaceArrays);
         comboPanel.add(mySpaceComboBox);
         comboPanel.revalidate();
 	}
 
+	/**
+	 * Makes the buttons work.
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == btnAssign) {
@@ -211,6 +298,7 @@ public class CompanyParkingGUI extends JPanel implements ActionListener{
 			pnlContent.revalidate();
 			this.repaint();
 		} else if (e.getSource() == btnAddMember) {
+			performAssignMember();
 		} else if (e.getSource() == btnList) {
 			mList = getData();
 			pnlContent.removeAll();
@@ -220,6 +308,58 @@ public class CompanyParkingGUI extends JPanel implements ActionListener{
 			pnlContent.revalidate();
 			pnlContent.setVisible(true);
 			this.repaint();
+		}
+	}
+
+	/**
+	 * This method assign the space for the member.
+	 */
+	private void performAssignMember() {
+		String nameAndNoStr = myMemberComboBox.getSelectedItem().toString();
+		int firstIndex = nameAndNoStr.indexOf("-");
+		String name = nameAndNoStr.substring(0, firstIndex - 1);
+		
+		String memNumber = nameAndNoStr.substring(firstIndex + 2);
+		
+		String lotName = myLotComboBox.getSelectedItem().toString();
+		
+		String spaceNo = mySpaceComboBox.getSelectedItem().toString();
+		
+		int secondIndex = spaceNo.indexOf("-");
+		String spaceName = spaceNo.substring(0, secondIndex - 1);
+		
+		if (!spaceName.equals(lotName)) {
+			JOptionPane.showMessageDialog(null, "You selected wrong parking space");
+		} else {
+			String rateStr = txfField.getText();
+			if (rateStr.length() == 0) {
+				JOptionPane.showMessageDialog(null, "Enter a monthly rate!");
+				txfField.setFocusable(true);
+				return;
+			}
+			double monthlyRate = 0.0;
+			if (rateStr.length() != 0) {
+				try {
+					monthlyRate = Double.parseDouble(rateStr);
+				} catch (NumberFormatException e) {
+					JOptionPane.showMessageDialog(null, "Enter price as decimal");
+					return;
+				}
+			}
+			
+			String status = "Taken";
+			
+			CompanyParking cp = new CompanyParking(memNumber, spaceNo, status, monthlyRate);
+			cp.setMemberName(name);
+			
+			if (CompanyParkingDB.assignMember(cp).equals("Assign Member Successfully")) {
+				JOptionPane.showMessageDialog(null, "Successfully added");
+			}
+			// Clear all text fields.
+			if (txfField.getText().length() != 0) {
+				txfField.setText("");
+			}
+			
 		}
 	}
 }

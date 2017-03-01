@@ -115,6 +115,10 @@ public class ParkingLotDB {
 		}
 	}
 	
+	/**
+	 * This method added all the spaces for a parking lot.
+	 * @param lots the parking lot.
+	 */
 	public static void addParkingSpace(ParkingLots lots) {
 		for (int i = 1; i <= lots.getCapacity(); i++) {
 			String sql = "insert into ParkingSpace(name, spaceNo) values "
@@ -132,7 +136,7 @@ public class ParkingLotDB {
 			try {
 				preparedStatement = mConnection.prepareStatement(sql);
 				preparedStatement.setString(1, lots.getName());
-				preparedStatement.setString(2, lots.getName() + "-" + i);
+				preparedStatement.setString(2, lots.getName() + "-" + i );
 				preparedStatement.executeUpdate();
 			} catch (SQLException e) {
 				JOptionPane.showMessageDialog(null, e.getMessage());

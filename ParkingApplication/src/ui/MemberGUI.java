@@ -152,7 +152,7 @@ public void actionPerformed(ActionEvent e) {
 		pnlContent.revalidate();
 		this.repaint();
 	} else if (e.getSource() == btnAddMember) {
-		performAddItem();
+		performAddMember();
 	} else if (e.getSource() == btnList) {
 		mList = getData();
 		pnlContent.removeAll();
@@ -166,7 +166,7 @@ public void actionPerformed(ActionEvent e) {
 	}
 }
 
-private void performAddItem() {
+private void performAddMember() {
 	String name = txfField[0].getText();
 	if (name.length() == 0) {
 		JOptionPane.showMessageDialog(null, "Enter an member name");
@@ -199,12 +199,9 @@ private void performAddItem() {
 	
 	member = new StaffMember(memNo, name, phone, vehicleLicense);
 
-//	String message = null; // "Member add failed";
 	if (MemberDB.addMember(member).equals("Added Member Successfully")) {
-//		message = "Member added";
 		JOptionPane.showMessageDialog(null, "Successfully added");
 	}
-//	JOptionPane.showMessageDialog(null, message);
 	// Clear all text fields.
 	for (int i = 0; i < txfField.length; i++) {
 		if (txfField[i].getText().length() != 0) {
