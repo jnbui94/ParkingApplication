@@ -50,7 +50,7 @@ public class BookedParkingGUI extends JPanel implements ActionListener {
 
 	private JPanel pnlAdd, mLotPanel;
 	private JLabel[] txfLabel = new JLabel[4];
-	private JTextField[] txfField = new JTextField[4];
+	private JTextField[] txfField = new JTextField[3];
 	private JButton btnAddParking;
 	private JComboBox<String> mNameLot, mSpaceNo;
 	private JButton btnAddItem;
@@ -167,7 +167,7 @@ public class BookedParkingGUI extends JPanel implements ActionListener {
 		
 		pnlAdd.add(comboPanel);
 		String labelNames[] = { "Enter Visistor License Number:", "Enter Visistor Available: ",
-		"Enter Date yyyyMMdd: "};
+		"Enter Date MM/dd/yyyy: "};
 		for (int i = 0; i < labelNames.length; i++) {
 			JPanel panel = new JPanel();
 			panel.setLayout(new GridLayout(1, 0));
@@ -221,7 +221,7 @@ public class BookedParkingGUI extends JPanel implements ActionListener {
 		java.sql.Date sql = null;
 		
 		try {
-			SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+			SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
 	        java.util.Date parsed =  format.parse(temp);
 	        sql = new java.sql.Date(parsed.getTime());
 	       
@@ -238,6 +238,9 @@ public class BookedParkingGUI extends JPanel implements ActionListener {
 			JOptionPane.showMessageDialog(null, "Added Successfully");
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Added Parking Failed");
+		}
+		for (int i = 0; i < txfField.length; i++) {
+				txfField[i].setText("");
 		}
 	}
 }

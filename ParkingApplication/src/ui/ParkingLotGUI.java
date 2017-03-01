@@ -20,7 +20,7 @@ import parking.ParkingLots;
 /**
  * A Panel that contains all the Item related functionality to 
  * list the items, search the items, add a new item, modify values within the item.
- * @author Loc Bui.
+ * @author John Bui.
  *
  */
 
@@ -201,8 +201,11 @@ public class ParkingLotGUI extends JPanel implements ActionListener {
 		//Create parking object and add to database.
 		ParkingLots parking;
 		parking = new ParkingLots(name,location, capacity, floor);
-		if (ParkingLotDB.addParkingLot(parking).equals("Added Member Successfully")) {
-			JOptionPane.showMessageDialog(null, "Successfully added");
+		try {
+			ParkingLotDB.addParkingLot(parking);
+			JOptionPane.showMessageDialog(null, "Added Succesfully");
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage() + "Error adding");
 		}
 		// Clear all text fields.
 		for (int i = 0; i < txfField.length; i++) {
