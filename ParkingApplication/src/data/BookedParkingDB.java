@@ -30,12 +30,16 @@ public class BookedParkingDB {
 	 * @return list of ParkingLot
 	 * @throws SQLException
 	 */
-	public static List<BookedParking> getParkingLots() throws SQLException {
+	public static List<BookedParking> getParkingLots(){
 		if (mConnection == null) {
-			mConnection = DataConnection.getConnection();
+			try {
+				mConnection = DataConnection.getConnection();
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(null, "Unable to connect to DB");
+			}
 		}
 		Statement stmt = null;
-		String query = "select * " + "from ParkingLot";
+		String query = "select * " + "from BookedVisitorParking";
 
 		mParkingList = new ArrayList<BookedParking>();
 		try {
@@ -43,9 +47,9 @@ public class BookedParkingDB {
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
 				String name = rs.getString("name");
-				String spaceNo = rs.getString("SpaceNo");
-				String licenseNo = rs.getString("visistorLicenseNo");
-				String available = rs.getString("visistorAvailable");
+				String spaceNo = rs.getString("spaceNo");
+				String licenseNo = rs.getString("visitorLicenseNo");
+				int available = rs.getInt("visitorAvailable");
 				Date bookedDate = rs.getDate("bookedDate");
 				BookedParking parkingLots = null;
 				parkingLots = new BookedParking(name,spaceNo,licenseNo,available,bookedDate);
@@ -53,11 +57,16 @@ public class BookedParkingDB {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println(e);
+			System.out.println(e + "BookedParkingDB GetParkingLots()");
+			System.out.print("DB");
 			
 		} finally {
 			if (stmt != null) {
-				stmt.close();
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		return mParkingList;
@@ -87,7 +96,7 @@ public class BookedParkingDB {
 	 * @return Returns "Added Item Successfully" or pop-up a Joptionpane for warning.
 	 */
 	public static String addBookedParkingLot(BookedParking lots) {
-		String sql = "insert into BookedVisistorParking(name, spaceNo,visistorLicenseNo,visistorAvailable,bookedDate) values "
+		String sql = "insert into BookedVisitorParking(name, spaceNo,visitorLicenseNo,visitorAvailable,bookedDate) values "
 				+ "(?, ?, ?, ?,?); ";
 
 		if (mConnection == null) {
@@ -104,7 +113,7 @@ public class BookedParkingDB {
 			preparedStatement.setString(1, lots.getmLot());
 			preparedStatement.setString(2, lots.getmSpaceNum());
 			preparedStatement.setString(3,lots.getmVisistorLicense());
-			preparedStatement.setString(4, lots.getmVisistorAvailable());
+			preparedStatement.setInt(4, lots.getmVisistorAvailable());
 			preparedStatement.setDate(5, lots.getmBookedDate());
 			preparedStatement.executeUpdate();
 			return "Added Member Successfully";

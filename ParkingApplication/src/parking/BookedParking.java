@@ -23,7 +23,7 @@ public class BookedParking {
 	/**
 	 * Space available.
 	 */
-	private String mVisistorAvailable;
+	private int mVisistorAvailable;
 	/**
 	 * Date reserve.
 	 */
@@ -32,7 +32,7 @@ public class BookedParking {
 	/**
 	 * Constructor for booked parking
 	 */
-	public BookedParking(String theLot, String theSpaceNum, String theLicense, String theVisistor,
+	public BookedParking(String theLot, String theSpaceNum, String theLicense, int theVisistor,
 			Date theBookedDate) {
 		mLot = theLot;
 		mBookedDate = theBookedDate;
@@ -86,14 +86,14 @@ public class BookedParking {
 	/**
 	 * @return the mVisistorAvailable
 	 */
-	public String getmVisistorAvailable() {
+	public int getmVisistorAvailable() {
 		return mVisistorAvailable;
 	}
 
 	/**
 	 * @param mVisistorAvailable the mVisistorAvailable to set
 	 */
-	public void setmVisistorAvailable(String mVisistorAvailable) {
+	public void setmVisistorAvailable(int mVisistorAvailable) {
 		this.mVisistorAvailable = mVisistorAvailable;
 	}
 

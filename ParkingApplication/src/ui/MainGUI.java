@@ -69,9 +69,9 @@ public class MainGUI extends JFrame {
 			} else if (type.equalsIgnoreCase("Company Parking")) {
 				panel.add(new CompanyParkingGUI());
 			} 
-				//else if (type.equalsIgnoreCase("Booked Visitor Parking")) {
-//			    panel.add(new BookedParkingGUI());
-//			}
+				else if (type.equalsIgnoreCase("Booked Visitor Parking")) {
+			    panel.add(new BookedParkingGUI());
+			}
 			return panel;
 		}
 		
