@@ -1,17 +1,13 @@
 package ui;
 
-import java.sql.SQLException;
-
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 /**
- * The main UI that has tabbed panes for the different parts of the 
- * system. It consists of tabs for Items, Categories, Clients and Transactions. 
- * @author mabraham
+ * The main UI that has tabbed panes for the different parts of the application.
+ * @author Loc Bui, John Bui
  *
  */
 public class MainGUI extends JFrame {
@@ -68,8 +64,7 @@ public class MainGUI extends JFrame {
 				panel.add(new MemberGUI());
 			} else if (type.equalsIgnoreCase("Company Parking")) {
 				panel.add(new CompanyParkingGUI());
-			} 
-				else if (type.equalsIgnoreCase("Booked Visitor Parking")) {
+			} else if (type.equalsIgnoreCase("Booked Visitor Parking")) {
 			    panel.add(new BookedParkingGUI());
 			}
 			return panel;

@@ -289,8 +289,6 @@ public class CompanyParkingGUI extends JPanel implements ActionListener{
 		
 		int secondIndex = spaceNo.indexOf("-");
 		String spaceName = spaceNo.substring(0, secondIndex);
-		System.out.println(lotName);
-		System.out.println(spaceName);
 		
 		if (!spaceName.equals(lotName)) {
 			JOptionPane.showMessageDialog(null, "You selected wrong parking space");
@@ -310,7 +308,7 @@ public class CompanyParkingGUI extends JPanel implements ActionListener{
 					return;
 				}
 			}
-			
+	
 			String status = "Taken";
 			
 			CompanyParking cp = new CompanyParking(memNumber, spaceNo, status, monthlyRate);

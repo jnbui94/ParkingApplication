@@ -93,7 +93,7 @@ public class BookedParkingGUI extends JPanel implements ActionListener {
 		btnList = new JButton("Booked Parking Lot List");
 		btnList.addActionListener(this);
 
-		btnAdd = new JButton("Assign Parking Lot");
+		btnAdd = new JButton("Book Parking Lot");
 		btnAdd.addActionListener(this);
 		
 		pnlButtons.add(btnList);
@@ -266,11 +266,11 @@ public class BookedParkingGUI extends JPanel implements ActionListener {
 	 * This method will add DB class to add data to database.
 	 */
 	public void performBooking() {
-		if (BookedParkingDB.getAvailable() <= 20) {
+		int available = 19 - BookedParkingDB.getAvailable();
+		if (available >= 0) {
 			String license =  txfField.getText();
 			String temp = mMonthComboBox.getSelectedItem().toString() + "/" + mDayComboBox.getSelectedItem().toString() +
 					"/" + mYearComboBox.getSelectedItem().toString();
-			System.out.println(temp);
 			java.sql.Date sql = null;
 			
 			try {
@@ -286,15 +286,18 @@ public class BookedParkingGUI extends JPanel implements ActionListener {
 			String name = myLotComboBox.getSelectedItem().toString();
 			String space = mySpaceComboBox.getSelectedItem().toString();
 			
-			int available = 20 - BookedParkingDB.getAvailable();
-			BookedParking bookedParking = new BookedParking(name, space, license, available, sql);
-			try {
-				BookedParkingDB.addBookedParkingLot(bookedParking);
-				JOptionPane.showMessageDialog(null, "Added Successfully");
-			} catch (Exception e) {
-				JOptionPane.showMessageDialog(null, "Added Parking Failed");
+			int secondIndex = space.indexOf("-");
+			String spaceName = space.substring(0, secondIndex);
+			
+			if (!spaceName.equals(name)) {
+				JOptionPane.showMessageDialog(null, "You selected wrong parking space");
+			} else {
+				BookedParking bookedParking = new BookedParking(name, space, license, available, sql);
+				if (BookedParkingDB.addBookedParkingLot(bookedParking).equals("Added Member Successfully")) {
+					JOptionPane.showMessageDialog(null, "Successfully added");
+				}
+				txfField.setText("");
 			}
-			txfField.setText("");
 		} else {
 			JOptionPane.showMessageDialog(null, "Added Parking Failed! Parking lot is full");
 		}

@@ -152,7 +152,7 @@ public class BookedParkingDB {
 			return "Added Member Successfully";
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
-			return "fail";
+			return "Fail";
 		}
 	}
 	
