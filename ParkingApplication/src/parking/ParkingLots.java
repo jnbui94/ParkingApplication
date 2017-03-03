@@ -1,7 +1,7 @@
 package parking;
 /**
  * This class contain parkinglot which is unique by name.
- * @author jnbui
+ * @author John Bui
  *
  */
 public class ParkingLots {

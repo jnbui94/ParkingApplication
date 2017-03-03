@@ -30,25 +30,78 @@ import parking.ParkingLots;
  *
  */
 public class BookedParkingGUI extends JPanel implements ActionListener {
+	/*
+	 * Auto Generate Serial Number.
+	 */
 	private static final long serialVersionUID = 1779520078061383929L;
-	private JButton btnList, btnAdd;
-	private JPanel pnlButtons, pnlContent, comboPanel;
+	/*
+	 * JButton for List panel.
+	 */
+	private JButton btnList;
+	/*
+	 * JButton for Add panel.
+	 */
+	private JButton btnAdd;
+	/*
+	 * JPanel for Buttons.
+	 */
+	private JPanel pnlButtons;
+	/*
+	 * JPanel for Content.
+	 */
+	private JPanel  pnlContent;
+	/*
+	 * JPanel for combobutton.
+	 */
+	private JPanel  comboPanel;
+	/*
+	 * List of BookedParking.
+	 */
 	private List<BookedParking> mList;
-
+	/*
+	 * Columns Variables for display
+	 */
 	private String[] mItemColumnNames = { "name", "SpaceNo", "VisitorLiencse Number", "Visistor Available",
 			"BookedDate" };
-
+	/*
+	 * 2D array to display data
+	 */
 	private Object[][] mData;
+	/*
+	 * JTable to display data
+	 */
 	private JTable table;
+	/*
+	 * scrollPane.
+	 */
 	private JScrollPane scrollPane;
-
+	/*
+	 * Panel Add
+	 */
 	private JPanel pnlAdd;
+	/*
+	 * Label for textfield.
+	 */
 	private JLabel txfLabel;
+	/*.
+	 * Text field to add data.
+	 */
 	private JTextField txfField;
+	/*
+	 * Combo boxes for adding data.
+	 */
 	private JComboBox<String> myLotComboBox, mySpaceComboBox, myEmptyComboBox, mDayComboBox, mMonthComboBox, mYearComboBox;
+	/*
+	 * Add button.
+	 */
 	private JButton btnAddItem;
+	/*
+	 * String array for comboboxes.
+	 */
 	private String[] myLotArrays, mySpaceArrays, mDays, mMonths, mYears;
-	
+	/*
+	 * Public contructor to create GUI
+	 */
 	public BookedParkingGUI() {
 		setLayout(new BorderLayout());
 		mList = getData();
@@ -240,7 +293,9 @@ public class BookedParkingGUI extends JPanel implements ActionListener {
         comboPanel.add(mySpaceComboBox);
         comboPanel.revalidate();
 	}
-	
+	/*
+	 * Override method to handle click lsitener
+	 */
 	@Override
 	public void actionPerformed(ActionEvent thEvent) {
 		if (thEvent.getSource() == btnAdd) {

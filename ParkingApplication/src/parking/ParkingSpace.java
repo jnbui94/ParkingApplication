@@ -1,7 +1,7 @@
 package parking;
 /**
  * Parking Space class. Identify parking space.
- * @author jnbui
+ * @author John Bui
  *
  */
 public class ParkingSpace {

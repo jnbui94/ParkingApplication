@@ -13,28 +13,68 @@ import parking.ParkingLots;
 
 
 /**
- * A Panel that contains all the Item related functionality to 
- * list the items, search the items, add a new item, modify values within the item.
+ * ParkingLot Gui, use to display Parking Lot and add more parking lots.
  * @author John Bui.
  *
  */
 
 public class ParkingLotGUI extends JPanel implements ActionListener {
+	/**
+	 * Auto Generate Id.
+	 */
 	private static final long serialVersionUID = 1779520078061383929L;
-	private JButton btnList, btnAdd;
-	private JPanel pnlButtons, pnlContent;
+	/**
+	 * List button.
+	 */
+	private JButton btnList;
+	/**
+	 * Add Button.
+	 */
+	private JButton btnAdd;
+	/**
+	 * Buttons Panel
+	 */
+	private JPanel pnlButtons;
+	/**
+	 * Content Panel
+	 */
+	private JPanel pnlContent;
+	/**
+	 * List of Parking Lots.
+	 */
 	private List<ParkingLots> mList;
-
+	/**
+	 * Array of Columns Names.
+	 */
 	private String[] mItemColumnNames = { "name", "location", "capacity",
 			"numOfFloors" };
-
+	/**
+	 * 2D array for displaying data.
+	 */
 	private Object[][] mData;
+	/**
+	 * JTable for displaying data
+	 */
 	private JTable table;
+	/**
+	 * ScroolPane
+	 */
 	private JScrollPane scrollPane;
-
+	/**
+	 * Add Panel.
+	 */
 	private JPanel pnlAdd;
+	/**
+	 * Labels for textfield
+	 */
 	private JLabel[] txfLabel = new JLabel[4];
+	/**
+	 * JTextField
+	 */
 	private JTextField[] txfField = new JTextField[4];
+	/**
+	 * Add Parking button
+	 */
 	private JButton btnAddParking;
 
 	/**

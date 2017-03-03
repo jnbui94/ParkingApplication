@@ -4,7 +4,7 @@ import java.sql.Date;
 
 /**
  * This class is for visitor parking
- * @author jnbui
+ * @author John Bui
  *
  */
 public class BookedParking {

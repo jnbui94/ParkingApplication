@@ -12,7 +12,12 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 import parking.BookedParking;
-
+/**
+ * This class will connect to Database and handle all connection with BookedParking 
+ * table.
+ * @author John Bui
+ *
+ */
 public class BookedParkingDB {
 	/**
 	 * static variable for connection.
@@ -70,7 +75,9 @@ public class BookedParkingDB {
 		}
 		return mParkingList;
 	}
-	
+	/*
+	 * This method will get how many parking there are in the database.
+	 */
 	public static int getAvailable(){
 		if (mConnection == null) {
 			try {
@@ -155,7 +162,9 @@ public class BookedParkingDB {
 			return "Fail";
 		}
 	}
-	
+	/*
+	 * This method will delete old data.
+	 */
 	public static void deleteOldReservation(){
 		if (mConnection == null) {
 			try {

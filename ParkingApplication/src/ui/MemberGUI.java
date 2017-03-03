@@ -24,21 +24,62 @@ import StaffMember.StaffMember;
  */
 
 public class MemberGUI extends JPanel implements ActionListener, TableModelListener{
+	/**
+	 * AutoGenerate Id.
+	 */
 	private static final long serialVersionUID = 1779520078061383929L;
-	private JButton btnList, btnAdd;
-	private JPanel pnlButtons, pnlContent;
+	/**
+	 * List Button.
+	 */
+	private JButton btnList;
+	/**
+	 * Add Button
+	 */
+	private JButton btnAdd;
+	/**
+	 * Button Panel
+	 */
+	private JPanel pnlButtons;
+	/**
+	 * Content Panel
+	 */
+	private JPanel pnlContent;
+	/**
+	 * List of StaffMember
+	 */
 	private List<StaffMember> mList;
-
+	/**
+	 * String array for columns name.
+	 */
 	private String[] mItemColumnNames = { "name", "memberNo", "phone",
 			"vehicleLicense" };
-
+	/**
+	 * 2d array for data.
+	 */
 	private Object[][] mData;
+	/**
+	 * Table to display data
+	 */
 	private JTable table;
+	/**
+	 * ScrollPane
+	 */
 	private JScrollPane scrollPane;
-
+	/**
+	 * Add Panel
+	 */
 	private JPanel pnlAdd;
+	/**
+	 * Label for textfield
+	 */
 	private JLabel[] txfLabel = new JLabel[4];
+	/**
+	 * TextField
+	 */
 	private JTextField[] txfField = new JTextField[4];
+	/**
+	 * Add Button.
+	 */
 	private JButton btnAddMember;
 
 	/**
@@ -106,7 +147,9 @@ public class MemberGUI extends JPanel implements ActionListener, TableModelListe
 		add(pnlContent, BorderLayout.CENTER);
 
 	}
-	
+	/**
+	 * Add list panel.
+	 */
 	public void addListPanel() {
 		// List Panel
 		pnlContent = new JPanel();
@@ -142,73 +185,77 @@ public class MemberGUI extends JPanel implements ActionListener, TableModelListe
 		panel.add(btnAddMember);
 		pnlAdd.add(panel);
 	}
-
-@Override
-public void actionPerformed(ActionEvent e) {
-	if(e.getSource() == btnAdd) {
-		pnlContent.removeAll();
-		addPanel();
-		pnlContent.add(pnlAdd);
-		pnlContent.revalidate();
-		this.repaint();
-	} else if (e.getSource() == btnAddMember) {
-		performAddMember();
-	} else if (e.getSource() == btnList) {
-		mList = getData();
-		pnlContent.removeAll();
-		table = new JTable(mData, mItemColumnNames);
-		table.getModel().addTableModelListener(this);
-		scrollPane = new JScrollPane(table);
-		pnlContent.add(scrollPane);
-		pnlContent.revalidate();
-		pnlContent.setVisible(true);
-		this.repaint();
-	}
-}
-
-private void performAddMember() {
-	String name = txfField[0].getText();
-	if (name.length() == 0) {
-		JOptionPane.showMessageDialog(null, "Enter an member name");
-		txfField[0].setFocusable(true);
-		return;
-	}
-	
-	String memNo = txfField[1].getText();
-	if (memNo.length() == 0) {
-		JOptionPane.showMessageDialog(null, "Enter an member number");
-		txfField[1].setFocusable(true);
-		return;
-	}
-	
-	String phone = txfField[2].getText();
-	if (phone.length() == 0) {
-		JOptionPane.showMessageDialog(null, "Enter an member phone number");
-		txfField[2].setFocusable(true);
-		return;
-	}
-	
-	String vehicleLicense = txfField[3].getText();
-	if (vehicleLicense.length() == 0) {
-		JOptionPane.showMessageDialog(null, "Enter an member vehicle license");
-		txfField[3].setFocusable(true);
-		return;
-	}
-	
-	StaffMember member;
-	
-	member = new StaffMember(memNo, name, phone, vehicleLicense);
-
-	if (MemberDB.addMember(member).equals("Added Member Successfully")) {
-		JOptionPane.showMessageDialog(null, "Successfully added");
-	}
-	// Clear all text fields.
-	for (int i = 0; i < txfField.length; i++) {
-		if (txfField[i].getText().length() != 0) {
-			txfField[i].setText("");
+	/**
+	 * Ovveride actionListener. 
+	 */
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == btnAdd) {
+			pnlContent.removeAll();
+			addPanel();
+			pnlContent.add(pnlAdd);
+			pnlContent.revalidate();
+			this.repaint();
+		} else if (e.getSource() == btnAddMember) {
+			performAddMember();
+		} else if (e.getSource() == btnList) {
+			mList = getData();
+			pnlContent.removeAll();
+			table = new JTable(mData, mItemColumnNames);
+			table.getModel().addTableModelListener(this);
+			scrollPane = new JScrollPane(table);
+			pnlContent.add(scrollPane);
+			pnlContent.revalidate();
+			pnlContent.setVisible(true);
+			this.repaint();
 		}
 	}
-}
+	/**
+	 * This method performs add action.
+	 */
+	private void performAddMember() {
+		String name = txfField[0].getText();
+		if (name.length() == 0) {
+			JOptionPane.showMessageDialog(null, "Enter an member name");
+			txfField[0].setFocusable(true);
+			return;
+		}
+		
+		String memNo = txfField[1].getText();
+		if (memNo.length() == 0) {
+			JOptionPane.showMessageDialog(null, "Enter an member number");
+			txfField[1].setFocusable(true);
+			return;
+		}
+		
+		String phone = txfField[2].getText();
+		if (phone.length() == 0) {
+			JOptionPane.showMessageDialog(null, "Enter an member phone number");
+			txfField[2].setFocusable(true);
+			return;
+		}
+		
+		String vehicleLicense = txfField[3].getText();
+		if (vehicleLicense.length() == 0) {
+			JOptionPane.showMessageDialog(null, "Enter an member vehicle license");
+			txfField[3].setFocusable(true);
+			return;
+		}
+		
+		StaffMember member;
+		
+		member = new StaffMember(memNo, name, phone, vehicleLicense);
+	
+		if (MemberDB.addMember(member).equals("Added Member Successfully")) {
+			JOptionPane.showMessageDialog(null, "Successfully added");
+		}
+		// Clear all text fields.
+		for (int i = 0; i < txfField.length; i++) {
+			if (txfField[i].getText().length() != 0) {
+				txfField[i].setText("");
+			}
+		}
+	}
 
 	/**
 	 * Listen to the cell changes on the table. 
