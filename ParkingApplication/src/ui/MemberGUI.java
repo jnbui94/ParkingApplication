@@ -17,8 +17,7 @@ import StaffMember.StaffMember;
 
 
 /**
- * A Panel that contains all the Item related functionality to 
- * list the items, search the items, add a new item, modify values within the item.
+ * A Panel that contains all the Item related functionality to list staff members and add staff members.
  * @author Loc Bui
  *
  */
@@ -83,8 +82,7 @@ public class MemberGUI extends JPanel implements ActionListener, TableModelListe
 	private JButton btnAddMember;
 
 	/**
-	 * Use this for Item administration. Add components that contain the list,
-	 * search and add to this.
+	 * Use this for create the GUI.
 	 */
 	public MemberGUI() {
 		setLayout(new BorderLayout());
@@ -94,10 +92,10 @@ public class MemberGUI extends JPanel implements ActionListener, TableModelListe
 		setSize(500, 500);
 	}
 
-	/*
-	 * Returns the data (2d) to use in the list as well as the search panels.
+	/**
+	 * Returns the data (2d) to use in the list.
 	 * 
-	 * @return
+	 * @return the staff member list
 	 */
 	private List<StaffMember> getData() {
 		
@@ -120,9 +118,8 @@ public class MemberGUI extends JPanel implements ActionListener, TableModelListe
 		return mList;
 	}
 
-	/*
-	 * Create the three panels to add to this GUI. One for list, one for search,
-	 * one for add.
+	/**
+	 * Create the panels to add to this GUI. One for list and one for add.
 	 */
 	private void createComponents() {
 		// A button panel at the top for list, search, add
@@ -139,9 +136,7 @@ public class MemberGUI extends JPanel implements ActionListener, TableModelListe
 		add(pnlButtons, BorderLayout.NORTH);
 
 		addListPanel();
-		
-		//I create a new method for the add panel in order to refresh the category ComboBox.
-		// @author Loc Bui
+	
 		addPanel();
 
 		add(pnlContent, BorderLayout.CENTER);
@@ -160,7 +155,6 @@ public class MemberGUI extends JPanel implements ActionListener, TableModelListe
 	
 	/**
 	 * This method create the add panel.
-	 * @author Loc Bui
 	 */
 	public void addPanel() {
 		// Add Panel
@@ -186,7 +180,7 @@ public class MemberGUI extends JPanel implements ActionListener, TableModelListe
 		pnlAdd.add(panel);
 	}
 	/**
-	 * Ovveride actionListener. 
+	 * Makes the buttons work.
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {

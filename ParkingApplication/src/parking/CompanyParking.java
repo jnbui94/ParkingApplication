@@ -1,7 +1,7 @@
 package parking;
 
 /**
- * This class is for visitor parking
+ * This class is for company parking which is for staff members.
  * @author Loc Bui
  *
  */

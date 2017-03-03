@@ -109,11 +109,9 @@ public class MemberDB {
 			return "Added Member Successfully";
 		} catch (SQLException e) {
 //			e.printStackTrace();
-//			return "Error adding member: " + e.getMessage();
 			JOptionPane.showMessageDialog(null, e.getMessage());
-			return "fail";
+			return "Fail";
 		}
-		//return "Added Member Successfully";
 	}
 
 	/**

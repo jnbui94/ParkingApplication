@@ -13,7 +13,7 @@ import parking.ParkingLots;
 
 
 /**
- * ParkingLot Gui, use to display Parking Lot and add more parking lots.
+ * ParkingLot GUI, use to display Parking Lot and add more parking lots.
  * @author John Bui.
  *
  */
@@ -78,8 +78,7 @@ public class ParkingLotGUI extends JPanel implements ActionListener {
 	private JButton btnAddParking;
 
 	/**
-	 * Use this for Item administration. Add components that contain the list,
-	 * search and add to this.
+	 * This creates the GUI.
 	 */
 	public ParkingLotGUI() {
 		setLayout(new BorderLayout());
@@ -89,12 +88,10 @@ public class ParkingLotGUI extends JPanel implements ActionListener {
 		setSize(500, 500);
 	}
 
-	/*
-	 * Returns the data (2d) to use in the list as well as the search panels.
+	/**
+	 * Returns the data (2d) to use in the list.
 	 * 
-	 * @param title
-	 * 
-	 * @return
+	 * @return the parking lots list
 	 */
 	private List<ParkingLots> getData() {
 		try {
@@ -115,8 +112,8 @@ public class ParkingLotGUI extends JPanel implements ActionListener {
 		
 	}
 
-	/*
-	 * Create the three panels to add to this GUI. One for list, one for search,
+	/**
+	 * Create the three panels to add to this GUI. One for list,
 	 * one for add.
 	 */
 	private void createComponents() {
@@ -150,7 +147,6 @@ public class ParkingLotGUI extends JPanel implements ActionListener {
 	
 	/**
 	 * This method create the add panel.
-	 * @author Loc Bui
 	 */
 	public void addPanel() {
 		// Add Panel
@@ -176,7 +172,7 @@ public class ParkingLotGUI extends JPanel implements ActionListener {
 		pnlAdd.add(panel);
 	}
 	/**
-	 * Action perform response when a button is clicked.
+	 * Make the buttons work.
 	 */
 	@Override
 	public void actionPerformed(ActionEvent thEvent) {
@@ -200,7 +196,7 @@ public class ParkingLotGUI extends JPanel implements ActionListener {
 		}
 		
 	}
-	/*
+	/**
 	 * Perform adding a parking lot.
 	 */
 	private void performAddParking() {

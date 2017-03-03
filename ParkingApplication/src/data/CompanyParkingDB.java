@@ -12,6 +12,11 @@ import javax.swing.JOptionPane;
 
 import parking.CompanyParking;
 
+/**
+ * This class makes calls to the database.
+ * @author Loc Bui
+ */
+
 public class CompanyParkingDB {
 	/**
 	 * static variable for connection.

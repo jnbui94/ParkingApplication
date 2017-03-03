@@ -25,7 +25,7 @@ import data.ParkingSpaceDB;
 import parking.BookedParking;
 import parking.ParkingLots;
 /**
- * This class will display bookedParking.
+ * This is a GUI class that will display bookedParking.
  * @author jnbui
  *
  */

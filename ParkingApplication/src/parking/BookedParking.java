@@ -3,7 +3,7 @@ package parking;
 import java.sql.Date;
 
 /**
- * This class is for visitor parking
+ * This class is for booked visitor parking
  * @author John Bui
  *
  */

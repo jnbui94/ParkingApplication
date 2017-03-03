@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class access to ParkingLot tables
+ * This class access to ParkingLot tables to retrieve parking spaces.
  * @author Loc Bui
  *
  */
