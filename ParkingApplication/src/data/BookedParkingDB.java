@@ -12,7 +12,6 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 import parking.BookedParking;
-import parking.ParkingLots;
 
 public class BookedParkingDB {
 	/**
@@ -71,6 +70,40 @@ public class BookedParkingDB {
 		}
 		return mParkingList;
 	}
+	
+	public static int getAvailable(){
+		if (mConnection == null) {
+			try {
+				mConnection = DataConnection.getConnection();
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(null, "Unable to connect to DB");
+			}
+		}
+		Statement stmt = null;
+		String query = "SELECT COUNT(spaceNo) 'count' FROM BookedVisitorParking;";
+		int available = 0;
+		try {
+			stmt = mConnection.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while (rs.next()) {
+				available = rs.getInt("count");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println(e + "BookedParkingDB GetParkingLots()");
+			System.out.print("DB");
+			
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return available;
+	}
 	/**
 	 * Returns all parking lots that contain the search keyword in the name or
 	 * @param name name of parking lots
@@ -120,6 +153,24 @@ public class BookedParkingDB {
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 			return "fail";
+		}
+	}
+	
+	public static void deleteOldReservation(){
+		if (mConnection == null) {
+			try {
+				mConnection = DataConnection.getConnection();
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(null, "Unable to connect to DB");
+			}
+		}
+		PreparedStatement preparedStatement = null;
+		String query = "DELETE FROM BookedVisitorParking WHERE DATEDIFF(bookedDate, CURDATE()) < 0;";
+		try {
+			preparedStatement = mConnection.prepareStatement(query);
+			preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 }

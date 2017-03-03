@@ -1,7 +1,6 @@
 package ui;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -155,7 +154,7 @@ public class CompanyParkingGUI extends JPanel implements ActionListener{
 	public void addPanel() {
 		// Add Panel
 		pnlAdd = new JPanel();
-		pnlAdd.setLayout(new GridLayout(6, 0));
+		pnlAdd.setLayout(new GridLayout(4, 0));
 		
 		
 		try {
@@ -163,7 +162,7 @@ public class CompanyParkingGUI extends JPanel implements ActionListener{
 			myMemberArrays = new String[listMember.size()];
 			
 			comboPanel = new JPanel();
-	        comboPanel.setLayout(new GridLayout(5, 0));
+	        comboPanel.setLayout(new GridLayout(4, 0));
 			
 	        for (int i = 0; i < listMember.size(); i++) {
 	        	myMemberArrays[i] = listMember.get(i).getName() + " - " +listMember.get(i).getId();
@@ -190,7 +189,6 @@ public class CompanyParkingGUI extends JPanel implements ActionListener{
 					String selectedLotName = myLotComboBox.getSelectedItem().toString();
 					updateSpace(selectedLotName);
 				}
-	        	
 	        });
 	        
 	        comboPanel.add(new JLabel("Choose a parking lot: "));
@@ -204,7 +202,7 @@ public class CompanyParkingGUI extends JPanel implements ActionListener{
 	        
 	        pnlAdd.add(comboPanel);
 	        
-	        JPanel textFieldPnl = new JPanel(new GridLayout(1,0));
+	        JPanel textFieldPnl = new JPanel();
 	        txfLabel = new JLabel("Enter Monthly Rate:");
 	        txfField = new JTextField(25);
 	        
@@ -290,7 +288,9 @@ public class CompanyParkingGUI extends JPanel implements ActionListener{
 		String spaceNo = mySpaceComboBox.getSelectedItem().toString();
 		
 		int secondIndex = spaceNo.indexOf("-");
-		String spaceName = spaceNo.substring(0, secondIndex - 1);
+		String spaceName = spaceNo.substring(0, secondIndex);
+		System.out.println(lotName);
+		System.out.println(spaceName);
 		
 		if (!spaceName.equals(lotName)) {
 			JOptionPane.showMessageDialog(null, "You selected wrong parking space");

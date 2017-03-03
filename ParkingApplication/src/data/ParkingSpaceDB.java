@@ -7,8 +7,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import parking.ParkingLots;
-
 /**
  * This class access to ParkingLot tables
  * @author Loc Bui

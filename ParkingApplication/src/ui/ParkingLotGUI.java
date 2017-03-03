@@ -7,12 +7,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.*;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.TableModel;
 
-import StaffMember.StaffMember;
-import data.MemberDB;
 import data.ParkingLotDB;
 import parking.ParkingLots;
 
