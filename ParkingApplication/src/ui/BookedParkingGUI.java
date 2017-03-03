@@ -215,12 +215,13 @@ public class BookedParkingGUI extends JPanel implements ActionListener {
         
         pnlAdd.add(comboPanel);
 		
-		mDays = new String[32];
-		for (int i = 1; i <= 31; i++) {
-			if (i < 10) {
-				mDays[i] = "0" + Integer.toString(i);
+		mDays = new String[31];
+		for (int i = 0; i <= 30; i++) {
+			int date = i + 1;
+			if (date < 10) {
+				mDays[i] = "0" + Integer.toString(date);
 			} else {
-				mDays[i] = Integer.toString(i);
+				mDays[i] = Integer.toString(date);
 			}
 		}
 		
@@ -230,12 +231,13 @@ public class BookedParkingGUI extends JPanel implements ActionListener {
 		dateComboPanel.add(new JLabel("Choose a date"));
 		dateComboPanel.add(mDayComboBox);
 		
-		mMonths = new String[13];
-		for (int i = 1; i <= 12; i++) {
-			if (i < 10) {
-				mMonths[i] = "0" + Integer.toString(i);
+		mMonths = new String[12];
+		for (int i = 0; i <= 11; i++) {
+			int month = i + 1;
+			if (month < 10) {
+				mMonths[i] = "0" + Integer.toString(month);
 			} else {
-				mMonths[i] = Integer.toString(i);
+				mMonths[i] = Integer.toString(month);
 			}
 		}
 		
@@ -244,8 +246,8 @@ public class BookedParkingGUI extends JPanel implements ActionListener {
 		dateComboPanel.add(mMonthComboBox);
 		
 		mYears = new String[10];
-		for (int i = 1; i <= 9; i++) {
-			mYears[i] = "20" + Integer.toString(i + 15);
+		for (int i = 0; i <= 9; i++) {
+			mYears[i] = "20" + Integer.toString(i + 17);
 		}
 		
 		mYearComboBox = new JComboBox<>(mYears);
