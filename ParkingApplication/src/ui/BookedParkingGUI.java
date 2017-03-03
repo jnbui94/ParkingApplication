@@ -24,7 +24,11 @@ import data.ParkingLotDB;
 import data.ParkingSpaceDB;
 import parking.BookedParking;
 import parking.ParkingLots;
-
+/**
+ * This class will display bookedParking.
+ * @author jnbui
+ *
+ */
 public class BookedParkingGUI extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1779520078061383929L;
 	private JButton btnList, btnAdd;
