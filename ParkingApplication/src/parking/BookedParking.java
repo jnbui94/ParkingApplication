@@ -30,15 +30,21 @@ public class BookedParking {
 	private Date mBookedDate;
 	
 	/**
+	 * The member number.
+	 */
+	private String mMemNo;
+	
+	/**
 	 * Constructor for booked parking
 	 */
 	public BookedParking(String theLot, String theSpaceNum, String theLicense, int theVisistor,
-			Date theBookedDate) {
+			Date theBookedDate, String theMemNo) {
 		mLot = theLot;
 		mBookedDate = theBookedDate;
 		mSpaceNum = theSpaceNum;
 		mVisistorLicense =theLicense;
 		mVisistorAvailable = theVisistor;
+		mMemNo = theMemNo;
 	}
 
 	/**
@@ -109,5 +115,12 @@ public class BookedParking {
 	 */
 	public void setmBookedDate(Date mBookedDate) {
 		this.mBookedDate = mBookedDate;
+	}
+	
+	/**
+	 * @return the mMemNo
+	 */
+	public String getMemNo() {
+		return mMemNo;
 	}
 }

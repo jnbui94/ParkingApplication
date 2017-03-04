@@ -277,51 +277,55 @@ public class CompanyParkingGUI extends JPanel implements ActionListener{
 	 * This method assign the space for the member.
 	 */
 	private void performAssignMember() {
-		String nameAndNoStr = myMemberComboBox.getSelectedItem().toString();
-		int firstIndex = nameAndNoStr.indexOf("-");
-		String name = nameAndNoStr.substring(0, firstIndex - 1);
-		
-		String memNumber = nameAndNoStr.substring(firstIndex + 2);
-		
-		String lotName = myLotComboBox.getSelectedItem().toString();
-		
-		String spaceNo = mySpaceComboBox.getSelectedItem().toString();
-		
-		int secondIndex = spaceNo.indexOf("-");
-		String spaceName = spaceNo.substring(0, secondIndex);
-		
-		if (!spaceName.equals(lotName)) {
-			JOptionPane.showMessageDialog(null, "You selected wrong parking space");
+		if (mySpaceComboBox == null) {
+			JOptionPane.showMessageDialog(null, "Please choose a parking space");
+			return;
 		} else {
-			String rateStr = txfField.getText();
-			if (rateStr.length() == 0) {
-				JOptionPane.showMessageDialog(null, "Enter a monthly rate!");
-				txfField.setFocusable(true);
-				return;
-			}
-			double monthlyRate = 0.0;
-			if (rateStr.length() != 0) {
-				try {
-					monthlyRate = Double.parseDouble(rateStr);
-				} catch (NumberFormatException e) {
-					JOptionPane.showMessageDialog(null, "Enter price as decimal");
+			String nameAndNoStr = myMemberComboBox.getSelectedItem().toString();
+			int firstIndex = nameAndNoStr.indexOf("-");
+			String name = nameAndNoStr.substring(0, firstIndex - 1);
+			
+			String memNumber = nameAndNoStr.substring(firstIndex + 2);
+			
+			String lotName = myLotComboBox.getSelectedItem().toString();
+			
+			String spaceNo = mySpaceComboBox.getSelectedItem().toString();
+			
+			int secondIndex = spaceNo.indexOf("-");
+			String spaceName = spaceNo.substring(0, secondIndex);
+			
+			if (!spaceName.equals(lotName)) {
+				JOptionPane.showMessageDialog(null, "You selected wrong parking space");
+			} else {
+				String rateStr = txfField.getText();
+				if (rateStr.length() == 0) {
+					JOptionPane.showMessageDialog(null, "Enter a monthly rate!");
+					txfField.setFocusable(true);
 					return;
 				}
-			}
-	
-			String status = "Taken";
-			
-			CompanyParking cp = new CompanyParking(memNumber, spaceNo, status, monthlyRate);
-			cp.setMemberName(name);
-			
-			if (CompanyParkingDB.assignMember(cp).equals("Assign Member Successfully")) {
-				JOptionPane.showMessageDialog(null, "Successfully added");
-			}
-			// Clear all text fields.
-			if (txfField.getText().length() != 0) {
-				txfField.setText("");
-			}
-			
+				double monthlyRate = 0.0;
+				if (rateStr.length() != 0) {
+					try {
+						monthlyRate = Double.parseDouble(rateStr);
+					} catch (NumberFormatException e) {
+						JOptionPane.showMessageDialog(null, "Enter price as decimal");
+						return;
+					}
+				}
+		
+				String status = "Taken";
+				
+				CompanyParking cp = new CompanyParking(memNumber, spaceNo, status, monthlyRate);
+				cp.setMemberName(name);
+				
+				if (CompanyParkingDB.assignMember(cp).equals("Assign Member Successfully")) {
+					JOptionPane.showMessageDialog(null, "Successfully added");
+				}
+				// Clear all text fields.
+				if (txfField.getText().length() != 0) {
+					txfField.setText("");
+				}	
+			}		
 		}
 	}
 }

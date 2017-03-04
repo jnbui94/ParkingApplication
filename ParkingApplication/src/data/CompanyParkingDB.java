@@ -87,7 +87,7 @@ public class CompanyParkingDB {
 		return filterList;
 	}
 	/**
-	 * Assign staff member to parking space.
+	 * Assign staff member to parking space and set that parking space to unavailable.
 	 * @param Company parking lots
 	 * @return Returns "Assign Item Successfully" or pop-up a Joptionpane for warning.
 	 */
@@ -111,10 +111,36 @@ public class CompanyParkingDB {
 			preparedStatement.setString(3, lots.getmStatus());
 			preparedStatement.setDouble(4,lots.getmMonthlyRate());
 			preparedStatement.executeUpdate();
+			setAvailable(lots);
 			return "Assign Member Successfully";
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 			return "Fail to assign Member";
+		}
+	}
+	
+	/**
+	 * This method will set the available of a public parking to false.
+	 * @param lots the lots
+	 */
+	public static void setAvailable(CompanyParking lots) {
+		String sql = "update PublicParking set available = false where spaceNo = ?";
+
+		if (mConnection == null) {
+			try {
+				mConnection = DataConnection.getConnection();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		PreparedStatement preparedStatement = null;
+		try {
+			preparedStatement = mConnection.prepareStatement(sql);
+			preparedStatement.setString(1, lots.getmSpaceNo());
+			preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 	}
 }

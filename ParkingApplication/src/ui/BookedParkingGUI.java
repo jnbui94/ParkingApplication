@@ -19,87 +19,90 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import StaffMember.StaffMember;
 import data.BookedParkingDB;
+import data.MemberDB;
 import data.ParkingLotDB;
 import data.ParkingSpaceDB;
 import parking.BookedParking;
 import parking.ParkingLots;
 /**
  * This is a GUI class that will display bookedParking.
- * @author jnbui
+ * @author John Bui, Loc Bui.
  *
  */
 public class BookedParkingGUI extends JPanel implements ActionListener {
-	/*
+	/**
 	 * Auto Generate Serial Number.
 	 */
 	private static final long serialVersionUID = 1779520078061383929L;
-	/*
+	/**
 	 * JButton for List panel.
 	 */
 	private JButton btnList;
-	/*
+	/**
 	 * JButton for Add panel.
 	 */
 	private JButton btnAdd;
-	/*
+	/**
 	 * JPanel for Buttons.
 	 */
 	private JPanel pnlButtons;
-	/*
+	/**
 	 * JPanel for Content.
 	 */
 	private JPanel  pnlContent;
-	/*
+	/**
 	 * JPanel for combobutton.
 	 */
 	private JPanel  comboPanel;
-	/*
+	/**
 	 * List of BookedParking.
 	 */
 	private List<BookedParking> mList;
-	/*
+	/**
 	 * Columns Variables for display
 	 */
 	private String[] mItemColumnNames = { "name", "SpaceNo", "VisitorLiencse Number", "Visistor Available",
-			"BookedDate" };
-	/*
+			"BookedDate", "StaffMemberNo" };
+	/**
 	 * 2D array to display data
 	 */
 	private Object[][] mData;
-	/*
+	/**
 	 * JTable to display data
 	 */
 	private JTable table;
-	/*
+	/**
 	 * scrollPane.
 	 */
 	private JScrollPane scrollPane;
-	/*
+	/**
 	 * Panel Add
 	 */
 	private JPanel pnlAdd;
-	/*
+	/**
 	 * Label for textfield.
 	 */
 	private JLabel txfLabel;
-	/*.
+	/**
 	 * Text field to add data.
 	 */
 	private JTextField txfField;
-	/*
+	/**
 	 * Combo boxes for adding data.
 	 */
-	private JComboBox<String> myLotComboBox, mySpaceComboBox, myEmptyComboBox, mDayComboBox, mMonthComboBox, mYearComboBox;
-	/*
+	private JComboBox<String> myLotComboBox, mySpaceComboBox, myEmptyComboBox, myMemberComboBox, 
+								mDayComboBox, mMonthComboBox, mYearComboBox;
+	/**
 	 * Add button.
 	 */
 	private JButton btnAddItem;
-	/*
+	/**
 	 * String array for comboboxes.
 	 */
-	private String[] myLotArrays, mySpaceArrays, mDays, mMonths, mYears;
-	/*
+	private String[] myLotArrays, mySpaceArrays, myMemberArrays, mDays, mMonths, mYears;
+	/**
 	 * Public contructor to create GUI
 	 */
 	public BookedParkingGUI() {
@@ -110,12 +113,10 @@ public class BookedParkingGUI extends JPanel implements ActionListener {
 		setSize(500, 500);
 		
 	}
-	/*
-	 * Returns the data (2d) to use in the list as well as the search panels.
+	/**
+	 * Returns the data (2d) to use in the list
 	 * 
-	 * @param title
-	 * 
-	 * @return
+	 * @return the list of booked parking.
 	 */
 	private List<BookedParking> getData() {
 		try {
@@ -132,11 +133,12 @@ public class BookedParkingGUI extends JPanel implements ActionListener {
 				mData[i][2] = mList.get(i).getmVisistorLicense();
 				mData[i][3] = mList.get(i).getmVisistorAvailable();
 				mData[i][4] = mList.get(i).getmBookedDate();
+				mData[i][5] = mList.get(i).getMemNo();
 			}
 		}
 		return mList;
 	}
-	/*
+	/**
 	 * Create the three panels to add to this GUI. One for list, one for search,
 	 * one for add.
 	 */
@@ -178,7 +180,23 @@ public class BookedParkingGUI extends JPanel implements ActionListener {
 		pnlAdd.setLayout(new GridLayout(4, 0));
 		// Get Lots name to display in the combo box
 		comboPanel = new JPanel();
-		comboPanel.setLayout(new GridLayout(3, 0));
+		comboPanel.setLayout(new GridLayout(4, 0));
+		
+		List<StaffMember> listMember = null;
+		try {
+			listMember = MemberDB.getMembers();
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
+		myMemberArrays = new String[listMember.size()];
+		
+        for (int i = 0; i < listMember.size(); i++) {
+        	myMemberArrays[i] = listMember.get(i).getName() + " - " +listMember.get(i).getId();
+        }
+
+        myMemberComboBox = new JComboBox<>(myMemberArrays);
+        comboPanel.add(new JLabel("Choose a staff member: "));
+        comboPanel.add(myMemberComboBox);
 		
 		List<ParkingLots> listLots = null;
 		try {
@@ -278,7 +296,7 @@ public class BookedParkingGUI extends JPanel implements ActionListener {
 	 * @param theLotName the parking lot name.
 	 */
 	private void updateSpace(String theLotName) {
-		comboPanel.remove(5);
+		comboPanel.remove(7);
 		List<String> listSpace = new ArrayList<String>();
 		try {
 			listSpace = ParkingSpaceDB.getParkingSpaces(theLotName);
@@ -295,8 +313,8 @@ public class BookedParkingGUI extends JPanel implements ActionListener {
         comboPanel.add(mySpaceComboBox);
         comboPanel.revalidate();
 	}
-	/*
-	 * Override method to handle click lsitener
+	/**
+	 * Override method to handle click listener
 	 */
 	@Override
 	public void actionPerformed(ActionEvent thEvent) {
@@ -325,35 +343,52 @@ public class BookedParkingGUI extends JPanel implements ActionListener {
 	public void performBooking() {
 		int available = 19 - BookedParkingDB.getAvailable();
 		if (available >= 0) {
-			String license =  txfField.getText();
-			String temp = mMonthComboBox.getSelectedItem().toString() + "/" + mDayComboBox.getSelectedItem().toString() +
-					"/" + mYearComboBox.getSelectedItem().toString();
-			java.sql.Date sql = null;
-			
-			try {
-				SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-		        java.util.Date parsed =  format.parse(temp);
-		        sql = new java.sql.Date(parsed.getTime());
-		       
-			} catch (ParseException e) {
-
-				e.printStackTrace();
-			}
-			
-			String name = myLotComboBox.getSelectedItem().toString();
-			String space = mySpaceComboBox.getSelectedItem().toString();
-			
-			int secondIndex = space.indexOf("-");
-			String spaceName = space.substring(0, secondIndex);
-			
-			if (!spaceName.equals(name)) {
-				JOptionPane.showMessageDialog(null, "You selected wrong parking space");
+			if (mySpaceComboBox == null) {
+				JOptionPane.showMessageDialog(null, "Please choose a parking space");
+				return;
 			} else {
-				BookedParking bookedParking = new BookedParking(name, space, license, available, sql);
-				if (BookedParkingDB.addBookedParkingLot(bookedParking).equals("Added Member Successfully")) {
-					JOptionPane.showMessageDialog(null, "Successfully added");
+				String nameAndNoStr = myMemberComboBox.getSelectedItem().toString();
+				int firstIndex = nameAndNoStr.indexOf("-");
+				String memNumber = nameAndNoStr.substring(firstIndex + 2);
+				
+				String license =  txfField.getText();
+				if (txfField.getText().length() == 0) {
+					JOptionPane.showMessageDialog(null, "Enter a visitor license number");
+					txfField.setFocusable(true);
+					return;
 				}
-				txfField.setText("");
+				String temp = mMonthComboBox.getSelectedItem().toString() + "/" + mDayComboBox.getSelectedItem().toString() +
+						"/" + mYearComboBox.getSelectedItem().toString();
+				java.sql.Date sql = null;
+				
+				try {
+					SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+			        java.util.Date parsed =  format.parse(temp);
+			        sql = new java.sql.Date(parsed.getTime());
+			       
+				} catch (ParseException e) {
+
+					e.printStackTrace();
+				}
+				
+				String name = myLotComboBox.getSelectedItem().toString();
+				
+
+				String space = mySpaceComboBox.getSelectedItem().toString();
+
+				
+				int secondIndex = space.indexOf("-");
+				String spaceName = space.substring(0, secondIndex);
+				
+				if (!spaceName.equals(name)) {
+					JOptionPane.showMessageDialog(null, "You selected wrong parking space");
+				} else {
+					BookedParking bookedParking = new BookedParking(name, space, license, available, sql, memNumber);
+					if (BookedParkingDB.addBookedParkingLot(bookedParking).equals("Added Member Successfully")) {
+						JOptionPane.showMessageDialog(null, "Successfully added");
+					}
+					txfField.setText("");
+				}
 			}
 		} else {
 			JOptionPane.showMessageDialog(null, "Added Parking Failed! Parking lot is full");

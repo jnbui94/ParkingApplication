@@ -33,7 +33,6 @@ public class MainGUI extends JFrame {
 
 		/**
 		 * Create the tabs for each part of the system. 
-		 * TODO - Categories, Clients, Transactions
 		 */
 		private void createComponents()
 		{

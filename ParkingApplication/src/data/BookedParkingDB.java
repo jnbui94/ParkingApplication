@@ -55,8 +55,9 @@ public class BookedParkingDB {
 				String licenseNo = rs.getString("visitorLicenseNo");
 				int available = rs.getInt("visitorAvailable");
 				Date bookedDate = rs.getDate("bookedDate");
+				String memNo = rs.getString("memberNo");
 				BookedParking parkingLots = null;
-				parkingLots = new BookedParking(name,spaceNo,licenseNo,available,bookedDate);
+				parkingLots = new BookedParking(name,spaceNo,licenseNo,available,bookedDate, memNo);
 				mParkingList.add(parkingLots);
 			}
 		} catch (SQLException e) {
@@ -75,8 +76,8 @@ public class BookedParkingDB {
 		}
 		return mParkingList;
 	}
-	/*
-	 * This method will get how many parking there are in the database.
+	/**
+	 * This method will get how many book-able available parking there are in the database.
 	 */
 	public static int getAvailable(){
 		if (mConnection == null) {
@@ -136,8 +137,8 @@ public class BookedParkingDB {
 	 * @return Returns "Added Item Successfully" or pop-up a Joptionpane for warning.
 	 */
 	public static String addBookedParkingLot(BookedParking lots) {
-		String sql = "insert into BookedVisitorParking(name, spaceNo,visitorLicenseNo,visitorAvailable,bookedDate) values "
-				+ "(?, ?, ?, ?,?); ";
+		String sql = "insert into BookedVisitorParking(name, spaceNo,visitorLicenseNo,visitorAvailable,bookedDate, memberNo) values "
+				+ "(?, ?, ?, ?, ?, ?); ";
 
 		if (mConnection == null) {
 			try {
@@ -155,6 +156,7 @@ public class BookedParkingDB {
 			preparedStatement.setString(3,lots.getmVisistorLicense());
 			preparedStatement.setInt(4, lots.getmVisistorAvailable());
 			preparedStatement.setDate(5, lots.getmBookedDate());
+			preparedStatement.setString(6, lots.getMemNo());
 			preparedStatement.executeUpdate();
 			return "Added Member Successfully";
 		} catch (SQLException e) {
@@ -162,7 +164,8 @@ public class BookedParkingDB {
 			return "Fail";
 		}
 	}
-	/*
+	
+	/**
 	 * This method will delete old data.
 	 */
 	public static void deleteOldReservation(){

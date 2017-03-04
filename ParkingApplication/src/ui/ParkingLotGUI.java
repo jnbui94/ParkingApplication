@@ -215,34 +215,62 @@ public class ParkingLotGUI extends JPanel implements ActionListener {
 		}
 		
 		String capacitystr =  txfField[2].getText();
-		int capacity = Integer.valueOf(capacitystr);
-		if (capacity <= 0) {
-			JOptionPane.showMessageDialog(null, "Enter a valid capacity");
+		int capacity = 0;
+		if (capacitystr.length() == 0) {
+			JOptionPane.showMessageDialog(null, "Enter a capacity");
 			txfField[2].setFocusable(true);
 			return;
 		}
 		
+		if (capacitystr.length() != 0) {
+			try {
+				capacity = Integer.valueOf(capacitystr);
+				if (capacity <= 0) {
+					JOptionPane.showMessageDialog(null, "Enter capacity as a positive decimal");
+					return;
+				}
+			} catch (NumberFormatException e) {
+				JOptionPane.showMessageDialog(null, "Enter capacity as a positive decimal");
+				return;
+			}
+		}
+		
 		String floorstr = txfField[3].getText();
-			int floor = Integer.valueOf(floorstr);
-		if (floor < 0) {
-			JOptionPane.showMessageDialog(null, "Enter a valid floor number");
-			txfField[3].setFocusable(true);
+		int floor = 0;
+		if (floorstr.length() == 0) {
+			JOptionPane.showMessageDialog(null, "Enter number of floor");
+			txfField[2].setFocusable(true);
 			return;
 		}
-		//Create parking object and add to database.
+		
+		floor = Integer.valueOf(floorstr);
+		if (floorstr.length() != 0) {
+			try {
+				floor = Integer.valueOf(floorstr);
+				if (floor <= 0) {
+					JOptionPane.showMessageDialog(null, "Enter number of floor as a positive decimal");
+					return;
+				}
+			} catch (NumberFormatException e) {
+				JOptionPane.showMessageDialog(null, "Enter number of floor as a positive decimal");
+				return;
+			}
+		}
+		
 		ParkingLots parking;
-		parking = new ParkingLots(name,location, capacity, floor);
 		try {
-			ParkingLotDB.addParkingLot(parking);
-			JOptionPane.showMessageDialog(null, "Added Succesfully");
+			parking = new ParkingLots(name,location, capacity, floor);
+			if (ParkingLotDB.addParkingLot(parking).equals("Added Member Successfully")) {
+				JOptionPane.showMessageDialog(null, "Successfully added");
+				// Clear all text fields.
+				for (int i = 0; i < txfField.length; i++) {
+					if (txfField[i].getText().length() != 0) {
+						txfField[i].setText("");
+					}
+				}
+			}
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage() + "Error adding");
-		}
-		// Clear all text fields.
-		for (int i = 0; i < txfField.length; i++) {
-			if (txfField[i].getText().length() != 0) {
-				txfField[i].setText("");
-			}
 		}
 	}
 }
