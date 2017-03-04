@@ -1,7 +1,7 @@
 package StaffMember;
 /**.
  * Staff Member contains info about a staff
- * @author jnbui
+ * @author John Bui
  *
  */
 public class StaffMember {

@@ -15,7 +15,7 @@ import parking.BookedParking;
 /**
  * This class will connect to Database and handle all connection with BookedParking 
  * table.
- * @author John Bui
+ * @author John Bui, Loc Bui
  *
  */
 public class BookedParkingDB {
